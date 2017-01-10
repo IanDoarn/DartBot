@@ -125,6 +125,18 @@ async def on_message(message):
         msg = 'Disconnected from ' + voice.channel.name
         await client.send_message(message.channel, msg)
 
+    if message.content.startswith('!playyt'):
+        server = message.server
+        voice = client.voice_client_in(server)
+        player = await voice.create_ytdl_player('https://www.youtube.com/watch?v=jDMGv3hNMes')
+        player.start()
+
+    if message.content.startswith('!playclyp'):
+        server = message.server
+        voice = client.voice_client_in(server)
+        player = voice.create_ffmpeg_player('https://api.clyp.it/ys0wcghh.mp3')
+        player.start()
+
     if message.content.startswith('!disconnect'):
         print(message.content)
         await client.close()
