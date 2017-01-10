@@ -91,7 +91,7 @@ async def on_message(message):
 
     if message.content.startswith('!hello'):
         print(message.content)
-        msg = 'Hello {0.author.mention}'
+        msg = 'Hello {0.author.mention}'.format(message)
         await client.send_message(message.channel, msg)
 
     if message.content.startswith('!help'):
@@ -124,6 +124,18 @@ async def on_message(message):
         print(client.is_voice_connected(server))
         msg = 'Disconnected from ' + voice.channel.name
         await client.send_message(message.channel, msg)
+
+    if message.content.startswith('!playyt'):
+        server = message.server
+        voice = client.voice_client_in(server)
+        player = await voice.create_ytdl_player('https://www.youtube.com/watch?v=jDMGv3hNMes')
+        player.start()
+
+    if message.content.startswith('!playclyp'):
+        server = message.server
+        voice = client.voice_client_in(server)
+        player = voice.create_ffmpeg_player('https://api.clyp.it/ys0wcghh.mp3')
+        player.start()
 
     '''if message.content.startswith('!test'):
         server = message.server
