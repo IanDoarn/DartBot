@@ -137,6 +137,10 @@ async def on_message(message):
         player = voice.create_ffmpeg_player('https://api.clyp.it/ys0wcghh.mp3')
         player.start()
 
+    if message.content.startswith('!disconnect'):
+        print(message.content)
+        await client.close()
+
     '''if message.content.startswith('!test'):
         server = message.server
         msg = 'testing'
