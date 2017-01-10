@@ -1,7 +1,10 @@
 import discord
 
-_client = discord.Client()
+client = discord.Client()
 
+def pm(destination, message):
+    #function used to send pms to users
+    return
 
 async def join_channel(message):
     server = message.server
@@ -16,7 +19,7 @@ async def join_channel(message):
             if channels.name == channelName:
                 if channels.type.name == 'voice':
                     if str(perms.value)[2] == '4':
-                        voice = await _client.join_voice_channel(channels)
+                        voice = await client.join_voice_channel(channels)
                         msg = 'Joining channel ' + voice.channel.name
                         break
                     else:
@@ -32,14 +35,14 @@ async def join_channel(message):
             #print(channels)
             perms = channels.permissions_for(bot)
             if channels.type.name == 'voice' and str(perms.value)[2] == '4':
-                voice = await _client.join_voice_channel(channels)
-                _client.join_voice_channel(channels)
+                voice = await client.join_voice_channel(channels)
+                client.join_voice_channel(channels)
                 msg = 'Joined channel ' + voice.channel.name
     return msg
 
 async def change_channel(message):
     server = message.server
-    voice = server.voice__client
+    voice = server.voice_client
     bot = server.me
     # print(server.channels)
     print(message.content)
@@ -73,33 +76,33 @@ async def change_channel(message):
 
 
 
-@_client.event
+@client.event
 async def on_ready():
     print('Logged in as')
-    print(_client.user.name)
-    print(_client.user.id)
+    print(client.user.name)
+    print(client.user.id)
     print('------')
 
-@_client.event
+@client.event
 async def on_message(message):
     # we do not want the bot to reply to itself
-    if message.author == _client.user:
+    if message.author == client.user:
         return
 
     if message.content.startswith('!hello'):
         print(message.content)
         msg = 'Hello {0.author.mention}'
-        await _client.send_message(message.channel, msg)
+        await client.send_message(message.channel, msg)
 
     if message.content.startswith('!help'):
         print(message.content)
         msg = 'I need an adult!'
-        await _client.send_message(message.channel, msg)
+        await client.send_message(message.channel, msg)
 
     if message.content.startswith('tot'):
         print(message.content)
         msg = 'gay'
-        await _client.send_message(message.channel, msg)
+        await client.send_message(message.channel, msg)
 
     if message.content.startswith('!joinVoice'):
         server = message.server
@@ -111,16 +114,16 @@ async def on_message(message):
             print('joining new channel')
             msg = await join_channel(message)
 
-        await _client.send_message(message.channel, msg)
+        await client.send_message(message.channel, msg)
 
     if message.content.startswith('!leave'):
         server = message.server
-        voice = _client.voice__client_in(server)
+        voice = client.voice_client_in(server)
         print(voice.channel.name)
         await voice.disconnect()
-        print(_client.is_voice_connected(server))
+        print(client.is_voice_connected(server))
         msg = 'Disconnected from ' + voice.channel.name
-        await _client.send_message(message.channel, msg)
+        await client.send_message(message.channel, msg)
 
     '''if message.content.startswith('!test'):
         server = message.server
@@ -134,4 +137,4 @@ async def on_message(message):
             print(str(perms.value)[2])'''
 
 def main(token):
-    _client.run(token)
+    client.run(token)
