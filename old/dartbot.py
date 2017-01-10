@@ -136,5 +136,4 @@ async def on_message(message):
             perms = channels.permissions_for(bot)
             print(str(perms.value)[2])'''
 
-def main():
-    client.run('MjY3NTA1MDY2MzA5NzEzOTMw.C1QcmA.OVS6j0lFRkGEEyccz7G0rIygrEA')
+client.run('MjY3NTA1MDY2MzA5NzEzOTMw.C1QcmA.OVS6j0lFRkGEEyccz7G0rIygrEA')

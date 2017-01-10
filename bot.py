@@ -15,6 +15,6 @@ if __name__ == '__main__':
         handles.main(args['run'][0])
 
     if args['join_test']:
-        handles.main('MjY3NTA1MDY2MzA5NzEzOTMw.C1QcmA.OVS6j0lFRkGEEyccz7G0rIygrEA')
-
+        #handles.main('MjY3NTA1MDY2MzA5NzEzOTMw.C1QcmA.OVS6j0lFRkGEEyccz7G0rIygrEA')
+        handles.main()
 
