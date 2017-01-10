@@ -125,6 +125,10 @@ async def on_message(message):
         msg = 'Disconnected from ' + voice.channel.name
         await client.send_message(message.channel, msg)
 
+    if message.content.startswith('!disconnect'):
+        print(message.content)
+        await client.close()
+
     '''if message.content.startswith('!test'):
         server = message.server
         msg = 'testing'
