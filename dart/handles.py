@@ -110,6 +110,7 @@ class Handles(object):
 
         if message.content.startswith('!joinVoice'):
             server = message.server
+            msg = 'voice channel'
             try:
                 if server.voice_self.client.is_connected:
                     print('changing channel')
@@ -139,6 +140,7 @@ class Handles(object):
                 print(channels)
                 perms = channels.permissions_for(bot)
                 print(str(perms.value)[2])'''
+
 
 def main(token):
     h = Handles(_client)
