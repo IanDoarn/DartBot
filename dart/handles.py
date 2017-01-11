@@ -85,6 +85,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    print(message.content)
     # we do not want the bot to reply to itself
     if message.author == client.user:
         return
@@ -125,17 +126,31 @@ async def on_message(message):
         msg = 'Disconnected from ' + voice.channel.name
         await client.send_message(message.channel, msg)
 
-    if message.content.startswith('!playyt'):
+    if message.content.startswith('!add'):
+        msg = 'add song'
         server = message.server
         voice = client.voice_client_in(server)
-        player = await voice.create_ytdl_player('https://www.youtube.com/watch?v=jDMGv3hNMes')
-        player.start()
+        if message.content.find('you', 4) is not -1:
+            player = await voice.create_ytdl_player(message.content[5:])
+            msg = 'Added \"' + player.title + '\" to the play list.'
+            player.start()
+        elif message.content.find('clyp.it', 4) is not -1:
+            print('http://a.clyp.it/' + message.content[21:] + '.mp3')
+            player = voice.create_ffmpeg_player('http://a.clyp.it/' + message.content[21:] + '.mp3')
+            msg = 'Added ' + '\"figuring out clyp.it api to get title goes here\"' + ' to the play list.'
+            player.start()
+        elif len(message.content) <= 5:
+            msg = 'Please include a link to add to the playlist.'
+        else:
+            msg = 'Website not supported, contact the dev to see if it can be added.'
+        await client.send_message(message.channel, msg)
 
-    if message.content.startswith('!playclyp'):
+
+    '''if message.content.startswith('!playclyp'):
         server = message.server
         voice = client.voice_client_in(server)
         player = voice.create_ffmpeg_player('https://api.clyp.it/ys0wcghh.mp3')
-        player.start()
+        player.start()'''
 
     if message.content.startswith('!disconnect'):
         print(message.content)
