@@ -1,4 +1,6 @@
 import discord
+import requests
+import json
 
 client = discord.Client()
 
@@ -136,8 +138,11 @@ async def on_message(message):
             player.start()
         elif message.content.find('clyp.it', 4) is not -1:
             print('http://a.clyp.it/' + message.content[21:] + '.mp3')
+            r = requests.get(url="https://api.clyp.it/"+message.content[21:])
+            _json = json.loads(r.text)
+            _title = _json['Title']
             player = voice.create_ffmpeg_player('http://a.clyp.it/' + message.content[21:] + '.mp3')
-            msg = 'Added ' + '\"figuring out clyp.it api to get title goes here\"' + ' to the play list.'
+            msg = 'Added \"' + _title + '\" to the play list.'
             player.start()
         elif len(message.content) <= 5:
             msg = 'Please include a link to add to the playlist.'
