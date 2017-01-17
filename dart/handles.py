@@ -126,6 +126,12 @@ async def on_message(message):
         msg = 'Disconnected from ' + voice.channel.name
         await client.send_message(message.channel, msg)
 
+    if message.content.startswith('!bro'):
+        msg = "what the fuck"
+        await client.send_message(message.channel, msg)
+
+
+
     if message.content.startswith('!add'):
         msg = 'add song'
         server = message.server
