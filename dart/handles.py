@@ -130,8 +130,6 @@ async def on_message(message):
         msg = "what the fuck"
         await client.send_message(message.channel, msg)
 
-
-
     if message.content.startswith('!add'):
         msg = 'add song'
         server = message.server
@@ -151,7 +149,6 @@ async def on_message(message):
             msg = 'Website not supported, contact the dev to see if it can be added.'
         await client.send_message(message.channel, msg)
 
-
     '''if message.content.startswith('!playclyp'):
         server = message.server
         voice = client.voice_client_in(server)
@@ -159,8 +156,11 @@ async def on_message(message):
         player.start()'''
 
     if message.content.startswith('!disconnect'):
-        print(message.content)
-        await client.close()
+        if message.author.id == '144634215693156353':
+            print(message.content)
+            await client.close()
+        else:
+            await client.send_message(message.channel, 'You do not have permission to use that command')
 
     '''if message.content.startswith('!test'):
         server = message.server
@@ -172,6 +172,7 @@ async def on_message(message):
             print(channels)
             perms = channels.permissions_for(bot)
             print(str(perms.value)[2])'''
+
 
 def main(token):
     client.run(token)
