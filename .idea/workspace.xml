@@ -381,7 +381,14 @@
       <option name="project" value="LOCAL" />
       <updated>1484698285831</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="changed !disconnect so only I can use it, since it ends connections to all servers&#10;">
+      <created>1484706680589</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1484706680589</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
