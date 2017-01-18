@@ -140,6 +140,10 @@ async def on_message(message):
             player = await voice.create_ytdl_player(message.content[5:])
             msg = 'Added \"' + player.title + '\" to the play list.'
             player.start()
+        elif message.content.find('soundcloud') is not -1:
+            player = await voice.create_ytdl_player(message.content[5:])
+            msg = 'Added \"' + player.title + '\" to the play list.'
+            player.start()
         elif message.content.find('clyp.it', 4) is not -1:
             print('http://a.clyp.it/' + message.content[21:] + '.mp3')
             r = requests.get(url="https://api.clyp.it/"+message.content[21:])
