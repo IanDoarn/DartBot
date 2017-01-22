@@ -20,7 +20,7 @@ async def join_channel(message):
             perms = channels.permissions_for(bot)
             if channels.name == channelName:
                 if channels.type.name == 'voice':
-                    if perms.connect and perms.speak and perms.use_voice_activation:
+                    if str(perms.value)[2] == '4':
                         voice = await client.join_voice_channel(channels)
                         msg = 'Joining channel ' + voice.channel.name
                         break
@@ -140,16 +140,12 @@ async def on_message(message):
             player = await voice.create_ytdl_player(message.content[5:])
             msg = 'Added \"' + player.title + '\" to the play list.'
             player.start()
-        elif message.content.find('soundcloud', 4) is not -1:
-            player = await voice.create_ytdl_player(message.content[5:])
-            msg = 'Added \"' + player.title + '\" to the play list.'
-            player.start()
         elif message.content.find('clyp.it', 4) is not -1:
             print('http://a.clyp.it/' + message.content[21:] + '.mp3')
             r = requests.get(url="https://api.clyp.it/"+message.content[21:])
             _json = json.loads(r.text)
             _title = _json['Title']
-            player = await voice.create_ffmpeg_player('http://a.clyp.it/' + message.content[21:] + '.mp3')
+            player = voice.create_ffmpeg_player('http://a.clyp.it/' + message.content[21:] + '.mp3')
             msg = 'Added \"' + _title + '\" to the play list.'
             player.start()
         elif len(message.content) <= 5:
@@ -157,20 +153,7 @@ async def on_message(message):
         else:
             msg = 'Website not supported, contact the dev to see if it can be added.'
         await client.send_message(message.channel, msg)
-'''
-    if message.content.startswith('!volume'):
-        msg = 'volume'
-        server = message.server
-        voice =  client.voice_client_in(server)
-        player = voice.
-        if len(message.content) == 7:
-            msg = "Choose a volume between 1.0 and 0.0. Please include the zero before the decimal."
-        elif len(message.content[8:]) == 3:
-            voice.volume(message.content[7:])
-        else:
-            msg = 'Please set a valid volume'
-        await client.send_message(message.channel, msg)
-'''
+
     '''if message.content.startswith('!playclyp'):
         server = message.server
         voice = client.voice_client_in(server)
