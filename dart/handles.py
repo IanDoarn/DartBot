@@ -1,24 +1,92 @@
 import discord
-import requests
-import json
-
-from discord.voice_client import StreamPlayer
+import asyncio
 
 
-class ServerPlayers:
-    def __init__(self, player, server):
+class VoiceEntry:
+    def __init__(self, message, player):
+        self.requester = message.author
+        self.channel = message.channel
         self.player = player
-        self.server = server
 
-    def addplayer(self, sp):
-        playerList.insert(-1, sp)
+    def __str__(self):
+        fmt = '*{0.title}* uploaded by {0.uploader} and requested by {1.display_name}'
+        duration = self.player.duration
+        if duration:
+            fmt = fmt + ' [length: {0[0]}m {0[1]}s]'.format(divmod(duration, 60))
+        return fmt.format(self.player, self.requester)
 
-playerList = []
+
+class VoiceState:
+    def __init__(self, client_):
+        self.current = None
+        self.voice = None
+        self.bot = client_
+        self.play_next_song = asyncio.Event()
+        self.songs = asyncio.Queue()
+        self.skip_votes = set() # a set of user_ids that voted
+        self.audio_player = self.bot.loop.create_task(self.audio_player_task())
+
+    def is_playing(self):
+        if self.voice is None or self.current is None:
+            return False
+
+        player = self.current.player
+        return not player.is_done()
+
+    @property
+    def player(self):
+        return self.current.player
+
+    def skip(self):
+        self.skip_votes.clear()
+        if self.is_playing():
+            self.player.stop()
+
+    def toggle_next(self):
+        self.bot.loop.call_soon_threadsafe(self.play_next_song.set)
+
+    async def audio_player_task(self):
+        print('audio_player_task')
+        while True:
+            print('true')
+            self.play_next_song.clear()
+            self.current = await self.songs.get()
+            print(self.current.channel)
+            await self.bot.send_message(self.current.channel, 'Now playing ' + str(self.current))
+            self.current.player.start()
+            await self.play_next_song.wait()
 
 
+class Music:
+    """Voice related commands.
+    Works in multiple servers at once.
+    """
+    def __init__(self, bot):
+        self.bot = bot
+        self.voice_states = {}
 
+    def get_voice_state(self, server):
+        state = self.voice_states.get(server.id)
+        if state is None:
+            state = VoiceState(self.bot)
+            self.voice_states[server.id] = state
 
-client = discord.Client()
+        return state
+
+    async def create_voice_client(self, channel):
+        voice = await self.bot.join_voice_channel(channel)
+        state = self.get_voice_state(channel.server)
+        state.voice = voice
+
+    def __unload(self):
+        for state in self.voice_states.values():
+            try:
+                state.audio_player.cancel()
+                if state.voice:
+                    self.bot.loop.create_task(state.voice.disconnect())
+            except:
+                pass
+
 
 def pm(destination, message):
     #function used to send pms to users
@@ -28,7 +96,7 @@ async def join_channel(message):
     server = message.server
     bot = server.me
     # print(server.channels)
-    print(message.content)
+    #print(message.content)
     msg = 'joinVoice'
     if len(message.content) > 10:
         channelName = message.content[11:]
@@ -38,10 +106,12 @@ async def join_channel(message):
                 if channels.type.name == 'voice':
                     if str(perms.value)[2] == '4':
                         voice = await client.join_voice_channel(channels)
+                        state = music.get_voice_state(message.server)
+                        state.voice = voice
                         msg = 'Joining channel ' + voice.channel.name
                         break
                     else:
-                        msg = 'DartBot is not allowed in ' + channels.name + '. Please check the channel permissions.'
+                        msg = 'I am not allowed in ' + channels.name + '. Please check the channel permissions.'
                         break
                 else:
                     msg = "Given Channel is not a voice channel."
@@ -55,6 +125,8 @@ async def join_channel(message):
             if channels.type.name == 'voice' and str(perms.value)[2] == '4':
                 voice = await client.join_voice_channel(channels)
                 client.join_voice_channel(channels)
+                state = music.get_voice_state(message.server)
+                state.voice = voice
                 msg = 'Joined channel ' + voice.channel.name
     return msg
 
@@ -63,7 +135,7 @@ async def change_channel(message):
     voice = server.voice_client
     bot = server.me
     # print(server.channels)
-    print(message.content)
+    #print(message.content)
     msg = 'joinVoice'
     if len(message.content) > 10:
         channelName = message.content[11:]
@@ -76,7 +148,7 @@ async def change_channel(message):
                         msg = 'Joining channel ' + voice.channel.name
                         break
                     else:
-                        msg = 'DartBot is not allowed in ' + channels.name + '. Please check the channel permissions.'
+                        msg = 'I am not allowed in ' + channels.name + '. Please check the channel permissions.'
                         break
                 else:
                     msg = "Given Channel is not a voice channel."
@@ -93,6 +165,10 @@ async def change_channel(message):
     return msg
 
 
+client = discord.Client()
+music = Music(client)
+
+
 
 @client.event
 async def on_ready():
@@ -103,23 +179,23 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    print(message.content)
+    #print(message.content)
     # we do not want the bot to reply to itself
     if message.author == client.user:
         return
 
     if message.content.startswith('!hello'):
-        print(message.content)
+        #print(message.content)
         msg = 'Hello {0.author.mention}'.format(message)
         await client.send_message(message.channel, msg)
 
     if message.content.startswith('!help'):
-        print(message.content)
+        #print(message.content)
         msg = 'I need an adult!'
         await client.send_message(message.channel, msg)
 
     if message.content.startswith('tot'):
-        print(message.content)
+        #print(message.content)
         msg = 'gay'
         await client.send_message(message.channel, msg)
 
@@ -127,10 +203,10 @@ async def on_message(message):
         server = message.server
         try:
             if server.voice_client.is_connected:
-                print('changing channel')
+                #print('changing channel')
                 msg = await change_channel(message)
         except:
-            print('joining new channel')
+            #print('joining new channel')
             msg = await join_channel(message)
 
         await client.send_message(message.channel, msg)
@@ -138,9 +214,9 @@ async def on_message(message):
     if message.content.startswith('!leave'):
         server = message.server
         voice = client.voice_client_in(server)
-        print(voice.channel.name)
+        #print(voice.channel.name)
         await voice.disconnect()
-        print(client.is_voice_connected(server))
+        #print(client.is_voice_connected(server))
         msg = 'Disconnected from ' + voice.channel.name
         await client.send_message(message.channel, msg)
 
@@ -149,26 +225,27 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
 
     if message.content.startswith('!add'):
+        server = message.server
+        state = Music.get_voice_state(music, server)
         msg = 'add song'
-        server = message.server
-        voice = client.voice_client_in(server)
-        if len(message.content) <= 5:
-            msg = 'Please include a link to add to the playlist.'
+        if client.is_voice_connected(server):
+            voice = client.voice_client_in(server)
+            if len(message.content) <= 5:
+                msg = 'Please include a link to add to the playlist.'
+            else:
+                player = await voice.create_ytdl_player(message.content[5:], after=state.toggle_next)
+                entry = VoiceEntry(message, player)
+                msg = 'Enqueued ' + str(entry)
+                await state.songs.put(entry)
+                player.volume = 0.6
+                #player.start()
         else:
-            player = await voice.create_ytdl_player(message.content[5:])
-            msg = 'Added \"' + player.title + '\" to the play list.'
-            player.start()
+            msg = "I am not in a voice channel, please add me to one first."
         await client.send_message(message.channel, msg)
-
-    '''if message.content.startswith('!playclyp'):
-        server = message.server
-        voice = client.voice_client_in(server)
-        player = voice.create_ffmpeg_player('https://api.clyp.it/ys0wcghh.mp3')
-        player.start()'''
 
     if message.content.startswith('!disconnect'):
         if message.author.id == '144634215693156353':
-            print(message.content)
+            #print(message.content)
             await client.close()
         else:
             await client.send_message(message.channel, 'You do not have permission to use that command')
