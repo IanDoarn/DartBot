@@ -2,6 +2,22 @@ import discord
 import requests
 import json
 
+from discord.voice_client import StreamPlayer
+
+
+class ServerPlayers:
+    def __init__(self, player, server):
+        self.player = player
+        self.server = server
+
+    def addplayer(self, sp):
+        playerList.insert(-1, sp)
+
+playerList = []
+
+
+
+
 client = discord.Client()
 
 def pm(destination, message):
@@ -136,22 +152,12 @@ async def on_message(message):
         msg = 'add song'
         server = message.server
         voice = client.voice_client_in(server)
-        if message.content.find('you', 4) is not -1:
+        if len(message.content) <= 5:
+            msg = 'Please include a link to add to the playlist.'
+        else:
             player = await voice.create_ytdl_player(message.content[5:])
             msg = 'Added \"' + player.title + '\" to the play list.'
             player.start()
-        elif message.content.find('clyp.it', 4) is not -1:
-            print('http://a.clyp.it/' + message.content[21:] + '.mp3')
-            r = requests.get(url="https://api.clyp.it/"+message.content[21:])
-            _json = json.loads(r.text)
-            _title = _json['Title']
-            player = voice.create_ffmpeg_player('http://a.clyp.it/' + message.content[21:] + '.mp3')
-            msg = 'Added \"' + _title + '\" to the play list.'
-            player.start()
-        elif len(message.content) <= 5:
-            msg = 'Please include a link to add to the playlist.'
-        else:
-            msg = 'Website not supported, contact the dev to see if it can be added.'
         await client.send_message(message.channel, msg)
 
     '''if message.content.startswith('!playclyp'):
