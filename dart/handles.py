@@ -12,7 +12,7 @@ class VoiceEntry:
         fmt = '*{0.title}* uploaded by {0.uploader} and requested by {1.display_name}'
         duration = self.player.duration
         if duration:
-            fmt += ' [length: {0[0].0}m {0[1].0}s]'.format(divmod(duration, 60))
+            fmt += ' [length: {0[0]}m {0[1]}s]'.format(divmod(duration, 60))
         return fmt.format(self.player, self.requester)
 
 
@@ -99,7 +99,7 @@ async def join_channel(message):
             perms = channels.permissions_for(bot)
             if channels.name == channel_name:
                 if channels.type.name == 'voice':
-                    if str(perms.value)[2] == '4':
+                    if perms.connect and perms.speak and perms.use_voice_activation:
                         voice = await client.join_voice_channel(channels)
                         state = music.get_voice_state(message.server)
                         state.voice = voice
@@ -117,7 +117,7 @@ async def join_channel(message):
         for channels in server.channels:
             # print(channels)
             perms = channels.permissions_for(bot)
-            if channels.type.name == 'voice' and str(perms.value)[2] == '4':
+            if channels.type.name == 'voice' and perms.connect and perms.speak and perms.use_voice_activation:
                 voice = await client.join_voice_channel(channels)
                 client.join_voice_channel(channels)
                 state = music.get_voice_state(message.server)
@@ -138,7 +138,7 @@ async def change_channel(message):
             perms = channels.permissions_for(bot)
             if channels.name == channel_name:
                 if channels.type.name == 'voice':
-                    if str(perms.value)[2] == '4':
+                    if perms.connect and perms.speak and perms.use_voice_activation:
                         await voice.move_to(channels)
                         msg = 'Joining channel ' + voice.channel.name
                         break
@@ -154,7 +154,7 @@ async def change_channel(message):
         for channels in server.channels:
             # print(channels)
             perms = channels.permissions_for(bot)
-            if channels.type.name == 'voice' and str(perms.value)[2] == '4':
+            if channels.type.name == 'voice' and perms.connect and perms.speak and perms.use_voice_activation:
                 await voice.move_to(channels)
                 msg = 'Joined channel ' + voice.channel.name
     return msg
@@ -212,6 +212,25 @@ async def on_message(message):
         except:
             # print('joining new channel')
             msg = await join_channel(message)
+
+        await client.send_message(message.channel, msg)
+
+    if message.content.startswith(command + 'summon'):
+        print(message.content)
+        summoned_channel = message.author.voice_channel
+        server = message.server
+        if summoned_channel is None:
+            msg = 'You are not in a voice channel.'
+        state = music.get_voice_state(message.server)
+        if state.voice is None:
+            voice = await client.join_voice_channel(summoned_channel)
+            msg = 'Joined ' + summoned_channel.name
+            state.voice = voice
+        else:
+            voice = server.voice_client
+            state.voice = voice
+            await voice.move_to(summoned_channel)
+            msg = 'Joined ' + summoned_channel.name
 
         await client.send_message(message.channel, msg)
 
