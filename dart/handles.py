@@ -25,6 +25,7 @@ class VoiceState:
         self.songs = asyncio.Queue()
         self.skip_votes = set()  # a set of user_ids that voted
         self.audio_player = self.bot.loop.create_task(self.audio_player_task())
+        self.volume = 0.6
 
     def is_playing(self):
         if self.voice is None or self.current is None:
@@ -53,6 +54,7 @@ class VoiceState:
             self.current = await self.songs.get()
             '''print(self.current.channel)'''
             await self.bot.send_message(self.current.channel, 'Now playing ' + str(self.current))
+            print(str(self.current))
             self.current.player.start()
             await self.play_next_song.wait()
 
@@ -205,6 +207,7 @@ async def on_message(message):
 # voice related commands below here
     if message.content.startswith(command + 'joinVoice'):
         server = message.server
+        msg = 'join voice'
         try:
             if server.voice_client.is_connected:
                 # print('changing channel')
@@ -261,6 +264,7 @@ async def on_message(message):
     if message.content.startswith(command + 'add'):
         server = message.server
         state = music.get_voice_state(server)
+        volume = state.volume
         if client.is_voice_connected(server):
             voice = client.voice_client_in(server)
             if len(message.content) <= 5:
@@ -270,7 +274,7 @@ async def on_message(message):
                 entry = VoiceEntry(message, player)
                 msg = 'Enqueued ' + str(entry)
                 await state.songs.put(entry)
-                player.volume = 0.6
+                player.volume = volume
                 # player.start()
         else:
             msg = "I am not in a voice channel, please add me to one first."
@@ -279,13 +283,16 @@ async def on_message(message):
     if message.content.startswith(command + 'volume'):
         state = music.get_voice_state(message.server)
         msg = 'volume'
+        player = state.player
         if state.is_playing():
             if len(message.content) <= 7:
-                msg = "Please include a number between 0 and 100"
+                msg = str(player.volume * 100) +'%'
             else:
                 if state.is_playing():
-                    player = state.player
                     player.volume = int(message.content[8:]) / 100
+                    if player.volume > 1.0:
+                        player.volume = 1.0
+                    state.volume = player.volume
                     msg = ('Set the volume to {:.0%}'.format(player.volume))
         else:
             msg = 'No song currently playing.'
