@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b249f87e-4c89-4578-82c0-1ae14981fe58" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dart/handles.py" afterPath="$PROJECT_DIR$/dart/handles.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -523,7 +522,14 @@
       <option name="project" value="LOCAL" />
       <updated>1485461414710</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="added exception catch to making players">
+      <created>1485462215304</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1485462215304</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -563,7 +569,8 @@
     <MESSAGE value="Bot now has music functionality: volume control, pause/resume, skip, np," />
     <MESSAGE value="bug fixes" />
     <MESSAGE value="added perms to commands" />
-    <option name="LAST_COMMIT_MESSAGE" value="added perms to commands" />
+    <MESSAGE value="added exception catch to making players" />
+    <option name="LAST_COMMIT_MESSAGE" value="added exception catch to making players" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
