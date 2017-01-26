@@ -12,7 +12,7 @@ class VoiceEntry:
         fmt = '*{0.title}* uploaded by {0.uploader} and requested by {1.display_name}'
         duration = self.player.duration
         if duration:
-            fmt += ' [length: {0[0]}m {0[1]}s]'.format(divmod(duration, 60))
+            fmt += ' [length: {0[0].0}m {0[1].0}s]'.format(divmod(duration, 60))
         return fmt.format(self.player, self.requester)
 
 
@@ -195,6 +195,14 @@ async def on_message(message):
         msg = 'gay'
         await client.send_message(message.channel, msg)
 
+    if message.content.startswith(command + 'disconnect'):
+        if message.author.id == '144634215693156353':
+            # print(message.content)
+            await client.close()
+        else:
+            await client.send_message(message.channel, 'You do not have permission to use that command')
+
+# voice related commands below here
     if message.content.startswith(command + 'joinVoice'):
         server = message.server
         try:
@@ -210,9 +218,20 @@ async def on_message(message):
     if message.content.startswith(command + 'leave'):
         server = message.server
         voice = client.voice_client_in(server)
-        # print(voice.channel.name)
-        await voice.disconnect()
-        # print(client.is_voice_connected(server))
+        state = music.get_voice_state(server)
+        perms = message.author.permissions_in(message.channel)
+        if perms.manage_server or message.author.id == '144634215693156353':
+
+            if state.is_playing():
+                player = state.player
+                player.stop()
+
+            try:
+                state.audio_player.cancel()
+                del music.voice_states[server.id]
+                await state.voice.disconnect()
+            except:
+                pass
         msg = 'Disconnected from ' + voice.channel.name
         await client.send_message(message.channel, msg)
 
@@ -222,7 +241,7 @@ async def on_message(message):
 
     if message.content.startswith(command + 'add'):
         server = message.server
-        state = music.get_voice_state(music, server)
+        state = music.get_voice_state(server)
         if client.is_voice_connected(server):
             voice = client.voice_client_in(server)
             if len(message.content) <= 5:
@@ -238,13 +257,6 @@ async def on_message(message):
             msg = "I am not in a voice channel, please add me to one first."
         await client.send_message(message.channel, msg)
 
-    if message.content.startswith(command + 'disconnect'):
-        if message.author.id == '144634215693156353':
-            # print(message.content)
-            await client.close()
-        else:
-            await client.send_message(message.channel, 'You do not have permission to use that command')
-
     if message.content.startswith(command + 'volume'):
         state = music.get_voice_state(message.server)
         msg = 'volume'
@@ -254,7 +266,7 @@ async def on_message(message):
             else:
                 if state.is_playing():
                     player = state.player
-                    player.volume = message.content[8:] / 100
+                    player.volume = int(message.content[8:]) / 100
                     msg = ('Set the volume to {:.0%}'.format(player.volume))
         else:
             msg = 'No song currently playing.'
@@ -296,7 +308,7 @@ async def on_message(message):
             player = state.player
             player.pause()
 
-    if message.content.startswith(command + 'resume'):
+    if message.content.startswith(command + 'play'):
         state = music.get_voice_state(message.server)
         if state.is_playing():
             player = state.player
