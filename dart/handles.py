@@ -276,21 +276,21 @@ async def on_message(message):
         state = music.get_voice_state(message.server)
         if not state.is_playing():
             msg = 'Not playing any music right now.'
-
-        voter = message.author
-        if voter == state.current.requester:
-            msg = 'Requester requested skipping song.'
-            state.skip()
-        elif voter.id not in state.skip_votes:
-            state.skip_votes.add(voter.id)
-            total_votes = len(state.skip_votes)
-            if total_votes >= 3:
-                msg = 'Skip vote passed, skipping song.'
-                state.skip()
-            else:
-                msg = 'Skip vote added, currently at [{}/3]'.format(total_votes)
         else:
-            msg = 'You have already voted to skip this song.'
+            voter = message.author
+            if voter == state.current.requester:
+                msg = 'Requester requested skipping song.'
+                state.skip()
+            elif voter.id not in state.skip_votes:
+                state.skip_votes.add(voter.id)
+                total_votes = len(state.skip_votes)
+                if total_votes >= 3:
+                    msg = 'Skip vote passed, skipping song.'
+                    state.skip()
+                else:
+                    msg = 'Skip vote added, currently at [{}/3]'.format(total_votes)
+            else:
+                msg = 'You have already voted to skip this song.'
         await client.send_message(message.channel, msg)
 
     if message.content.startswith(command + 'playing'):

@@ -31,8 +31,8 @@
       <file leaf-file-name="handles.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dart/handles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="220" column="45" lean-forward="false" selection-start-line="220" selection-start-column="45" selection-end-line="220" selection-end-column="45" />
+            <state relative-caret-position="123">
+              <caret line="275" column="53" lean-forward="false" selection-start-line="275" selection-start-column="53" selection-end-line="275" selection-end-column="53" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -604,7 +604,14 @@
       <option name="project" value="LOCAL" />
       <updated>1485399925442</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="bug fixes">
+      <created>1485405054545</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1485405054545</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -642,7 +649,8 @@
     <MESSAGE value="changes adding songs" />
     <MESSAGE value="bot can now queue songs, and play them in succession&#10;" />
     <MESSAGE value="Bot now has music functionality: volume control, pause/resume, skip, np," />
-    <option name="LAST_COMMIT_MESSAGE" value="Bot now has music functionality: volume control, pause/resume, skip, np," />
+    <MESSAGE value="bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1017,8 +1025,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dart/handles.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="220" column="45" lean-forward="false" selection-start-line="220" selection-start-column="45" selection-end-line="220" selection-end-column="45" />
+        <state relative-caret-position="123">
+          <caret line="275" column="53" lean-forward="false" selection-start-line="275" selection-start-column="53" selection-end-line="275" selection-end-column="53" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
