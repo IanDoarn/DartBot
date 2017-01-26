@@ -275,12 +275,17 @@ async def on_message(message):
             if len(message.content) <= 5:
                 msg = 'Please include a link to add to the playlist.'
             else:
-                player = await voice.create_ytdl_player(message.content[5:], after=state.toggle_next)
-                entry = VoiceEntry(message, player)
-                msg = 'Enqueued ' + str(entry)
-                await state.songs.put(entry)
-                player.volume = volume
-                # player.start()
+                try:
+                    player = await voice.create_ytdl_player(message.content[5:], after=state.toggle_next)
+                except Exception as e:
+                    fmt = 'An error occurred while processing this request: ```py\n{}: {}\n```'
+                    msg = fmt.format(type(e).__name__, e)
+                else:
+                    entry = VoiceEntry(message, player)
+                    msg = 'Enqueued ' + str(entry)
+                    await state.songs.put(entry)
+                    player.volume = volume
+                    # player.start()
         else:
             msg = "I am not in a voice channel, please add me to one first."
         await client.send_message(message.channel, msg)
