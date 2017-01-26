@@ -165,6 +165,7 @@ async def change_channel(message):
 client = discord.Client()
 music = Music(client)
 command = '!'  # just have to change this line to change command prefix
+owner = '144634215693156353'
 
 
 @client.event
@@ -198,7 +199,7 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
 
     if message.content.startswith(command + 'disconnect'):
-        if message.author.id == '144634215693156353':
+        if message.author.id == owner:
             # print(message.content)
             await client.close()
         else:
@@ -208,13 +209,15 @@ async def on_message(message):
     if message.content.startswith(command + 'joinVoice'):
         server = message.server
         msg = 'join voice'
-        try:
-            if server.voice_client.is_connected:
-                # print('changing channel')
-                msg = await change_channel(message)
-        except:
-            # print('joining new channel')
-            msg = await join_channel(message)
+        perms = message.author.permissions_in(message.channel)
+        if perms.manage_server or message.author.id == owner:
+            try:
+                if server.voice_client.is_connected:
+                    # print('changing channel')
+                    msg = await change_channel(message)
+            except:
+                # print('joining new channel')
+                msg = await join_channel(message)
 
         await client.send_message(message.channel, msg)
 
@@ -222,18 +225,20 @@ async def on_message(message):
         print(message.content)
         summoned_channel = message.author.voice_channel
         server = message.server
-        if summoned_channel is None:
-            msg = 'You are not in a voice channel.'
-        state = music.get_voice_state(message.server)
-        if state.voice is None:
-            voice = await client.join_voice_channel(summoned_channel)
-            msg = 'Joined ' + summoned_channel.name
-            state.voice = voice
-        else:
-            voice = server.voice_client
-            state.voice = voice
-            await voice.move_to(summoned_channel)
-            msg = 'Joined ' + summoned_channel.name
+        perms = message.author.permissions_in(message.channel)
+        if perms.manage_server or message.author.id == owner:
+            if summoned_channel is None:
+                msg = 'You are not in a voice channel.'
+            state = music.get_voice_state(message.server)
+            if state.voice is None:
+                voice = await client.join_voice_channel(summoned_channel)
+                msg = 'Joined ' + summoned_channel.name
+                state.voice = voice
+            else:
+                voice = server.voice_client
+                state.voice = voice
+                await voice.move_to(summoned_channel)
+                msg = 'Joined ' + summoned_channel.name
 
         await client.send_message(message.channel, msg)
 
@@ -242,7 +247,7 @@ async def on_message(message):
         voice = client.voice_client_in(server)
         state = music.get_voice_state(server)
         perms = message.author.permissions_in(message.channel)
-        if perms.manage_server or message.author.id == '144634215693156353':
+        if perms.manage_server or message.author.id == owner:
 
             if state.is_playing():
                 player = state.player
@@ -284,27 +289,30 @@ async def on_message(message):
         state = music.get_voice_state(message.server)
         msg = 'volume'
         player = state.player
-        if state.is_playing():
-            if len(message.content) <= 7:
-                msg = str(player.volume * 100) +'%'
+        perms = message.author.permissions_in(message.channel)
+        if perms.manage_server or message.author.id == owner:
+            if state.is_playing():
+                if len(message.content) <= 7:
+                    msg = str(player.volume * 100) +'%'
+                else:
+                    if state.is_playing():
+                        player.volume = int(message.content[8:]) / 100
+                        if player.volume > 1.0:
+                            player.volume = 1.0
+                        state.volume = player.volume
+                        msg = ('Set the volume to {:.0%}'.format(player.volume))
             else:
-                if state.is_playing():
-                    player.volume = int(message.content[8:]) / 100
-                    if player.volume > 1.0:
-                        player.volume = 1.0
-                    state.volume = player.volume
-                    msg = ('Set the volume to {:.0%}'.format(player.volume))
-        else:
-            msg = 'No song currently playing.'
+                msg = 'No song currently playing.'
         await client.send_message(message.channel, msg)
 
     if message.content.startswith(command + 'skip'):
         state = music.get_voice_state(message.server)
+        perms = message.author.permissions_in(message.channel)
         if not state.is_playing():
             msg = 'Not playing any music right now.'
         else:
             voter = message.author
-            if voter == state.current.requester:
+            if voter == state.current.requester or perms.manage_server or message.author.id == owner:
                 msg = 'Requester requested skipping song.'
                 state.skip()
             elif voter.id not in state.skip_votes:
@@ -330,15 +338,19 @@ async def on_message(message):
 
     if message.content.startswith(command + 'pause'):
         state = music.get_voice_state(message.server)
-        if state.is_playing():
-            player = state.player
-            player.pause()
+        perms = message.author.permissions_in(message.channel)
+        if perms.manage_server or message.author.id == owner:
+            if state.is_playing():
+                player = state.player
+                player.pause()
 
     if message.content.startswith(command + 'play'):
         state = music.get_voice_state(message.server)
-        if state.is_playing():
-            player = state.player
-            player.resume()
+        perms = message.author.permissions_in(message.channel)
+        if perms.manage_server or message.author.id == owner:
+            if state.is_playing():
+                player = state.player
+                player.resume()
 
 
 def main(token):
