@@ -90,6 +90,9 @@ def pm(destination, message):
     return
 
 async def join_channel(message):
+    """Method that given a message, makes the bot join a join channel.
+    Generates a voice_client for the server, and returns a string for the result.
+    Only works if a voice_client does not already exist for the server."""
     server = message.server
     bot = server.me
     # print(server.channels)
@@ -128,6 +131,9 @@ async def join_channel(message):
     return msg
 
 async def change_channel(message):
+    """Moves the bot to a different voice channel, given a message.
+    Returns a string with the result.
+    Only works if a voice_client for the server already exists"""
     server = message.server
     voice = server.voice_client
     bot = server.me
@@ -164,12 +170,13 @@ async def change_channel(message):
 
 client = discord.Client()
 music = Music(client)
-command = '!'  # just have to change this line to change command prefix
-owner = '144634215693156353'
+command = '!'  #Set this to w/e you want the command pre-fix to be
+owner = '144634215693156353'  #Discord user ID for who ever is running the bot
 
 
 @client.event
 async def on_ready():
+    """Prints to console when the bot is connected and ready."""
     print('Logged in as')
     print(client.user.name)
     print(client.user.id)
@@ -178,6 +185,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    """Whenever the client receives a message"""
     # print(message.content)
     # we do not want the bot to reply to itself
     if message.author == client.user:
@@ -199,6 +207,7 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
 
     if message.content.startswith(command + 'disconnect'):
+        """Disconnects the bot from all servers, and ends the program."""
         if message.author.id == owner:
             # print(message.content)
             await client.close()
@@ -207,6 +216,7 @@ async def on_message(message):
 
 # voice related commands below here
     if message.content.startswith(command + 'joinVoice'):
+        """Command used to have the bot join a voice channel, or move to another voice channel"""
         server = message.server
         msg = 'join voice'
         perms = message.author.permissions_in(message.channel)
@@ -222,6 +232,7 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
 
     if message.content.startswith(command + 'summon'):
+        """Makes the bot join, or move to the channel the users is currently in"""
         print(message.content)
         summoned_channel = message.author.voice_channel
         server = message.server
@@ -243,6 +254,7 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
 
     if message.content.startswith(command + 'leave'):
+        """Makes the bot disconnect from any voice channel is it in, in the server the command came from."""
         server = message.server
         voice = client.voice_client_in(server)
         state = music.get_voice_state(server)
@@ -267,6 +279,10 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
 
     if message.content.startswith(command + 'add'):
+        """Adds a song to the music playlist.
+        If there is no playlist, one is started, and the bot starts playing music
+        in the connected voice channel."""
+
         server = message.server
         state = music.get_voice_state(server)
         volume = state.volume
@@ -291,6 +307,7 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
 
     if message.content.startswith(command + 'volume'):
+        """Changes the volume of the music player, from 0 to 100"""
         state = music.get_voice_state(message.server)
         msg = 'volume'
         player = state.player
@@ -311,6 +328,8 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
 
     if message.content.startswith(command + 'skip'):
+        """Skips the current song if the command is issued by the requester
+        Or starts the vote to skip if they are not"""
         state = music.get_voice_state(message.server)
         perms = message.author.permissions_in(message.channel)
         if not state.is_playing():
@@ -333,6 +352,7 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
 
     if message.content.startswith(command + 'playing'):
+        """Prints the current song info into the channel the command came from"""
         state = music.get_voice_state(message.server)
         if state.current is None:
             msg = 'Not playing anything.'
@@ -342,6 +362,7 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
 
     if message.content.startswith(command + 'pause'):
+        """Pauses the music player"""
         state = music.get_voice_state(message.server)
         perms = message.author.permissions_in(message.channel)
         if perms.manage_server or message.author.id == owner:
@@ -350,6 +371,7 @@ async def on_message(message):
                 player.pause()
 
     if message.content.startswith(command + 'play'):
+        """Resumes the music player"""
         state = music.get_voice_state(message.server)
         perms = message.author.permissions_in(message.channel)
         if perms.manage_server or message.author.id == owner:
