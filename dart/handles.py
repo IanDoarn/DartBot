@@ -192,30 +192,30 @@ async def on_message(message):
         return
 
     if message.content.startswith(command + 'purge'):
-        msg = 'Delete the last X messages, to a max of 100, in the channel the command was issued in.'
-        saved = message
+        msg = 'Delete the last X messages, to a max of 100, by @mention, in the channel the command was issued in.'
         count = 0
         target = None
         server = message.server
-        perms = message.author.permissions_in(message.channel)
+        channel = message.channel
+        perms = message.author.permissions_in(channel)
         if perms.manage_messages or message.author.id == owner:
             if len(message.content) > 7:
                 if len(message.content) <= 10:
                     count = message.content[7:]
                     if int(count) <= 100:
-                        await client.purge_from(message.channel, limit=int(count))
-                        msg = 'Removed ' + count + ' messages from ' + message.channel.name
+                        await client.purge_from(channel, limit=int(count))
+                        msg = 'Removed ' + count + ' messages from ' + channel.name
                     else:
                         msg = 'This bot can only check up to 100 messages at a time.'
                 elif len(message.content) > 10:
                     space2 = message.content.find(' ', 7)
                     count = message.content[7:space2]
-                    if int(count) <=100:
+                    if int(count) <= 100:
                         user = message.content[space2:]
                         user = user[3:-1]
                         target = server.get_member(user)
-                        await client.purge_from(message.channel, limit=int(count), check=lambda m: m.author == target)
-                        msg = 'Checked the last ' + count + ' messages and removed all by' + target.name + ' from ' + saved.channel.name
+                        await client.purge_from(channel, limit=int(count), check=lambda m: m.author == target)
+                        msg = 'Checked the last ' + count + ' messages and removed all by' + target.name + ' from ' + channel.name
                     else:
                         msg = 'This bot can only check up to 100 messages at a time.'
         else:
@@ -253,7 +253,7 @@ async def on_message(message):
         server = message.server
         msg = 'join voice'
         perms = message.author.permissions_in(message.channel)
-        if perms.manage_server or message.author.id == owner:
+        if perms.kick_members or message.author.id == owner:
             try:
                 if server.voice_client.is_connected:
                     # print('changing channel')
@@ -270,7 +270,7 @@ async def on_message(message):
         summoned_channel = message.author.voice_channel
         server = message.server
         perms = message.author.permissions_in(message.channel)
-        if perms.manage_server or message.author.id == owner:
+        if perms.kick_members or message.author.id == owner:
             if summoned_channel is None:
                 msg = 'You are not in a voice channel.'
             state = music.get_voice_state(message.server)
@@ -292,7 +292,7 @@ async def on_message(message):
         voice = client.voice_client_in(server)
         state = music.get_voice_state(server)
         perms = message.author.permissions_in(message.channel)
-        if perms.manage_server or message.author.id == owner:
+        if perms.kick_members or message.author.id == owner:
 
             if state.is_playing():
                 player = state.player
@@ -345,7 +345,7 @@ async def on_message(message):
         msg = 'volume'
         player = state.player
         perms = message.author.permissions_in(message.channel)
-        if perms.manage_server or message.author.id == owner:
+        if perms.kick_members or message.author.id == owner:
             if state.is_playing():
                 if len(message.content) <= 7:
                     msg = str(player.volume * 100) +'%'
@@ -369,7 +369,7 @@ async def on_message(message):
             msg = 'Not playing any music right now.'
         else:
             voter = message.author
-            if voter == state.current.requester or perms.manage_server or message.author.id == owner:
+            if voter == state.current.requester or perms.kick_members or message.author.id == owner:
                 msg = 'Requester requested skipping song.'
                 state.skip()
             elif voter.id not in state.skip_votes:
@@ -398,7 +398,7 @@ async def on_message(message):
         """Pauses the music player"""
         state = music.get_voice_state(message.server)
         perms = message.author.permissions_in(message.channel)
-        if perms.manage_server or message.author.id == owner:
+        if perms.kick_members or message.author.id == owner:
             if state.is_playing():
                 player = state.player
                 player.pause()
@@ -407,7 +407,7 @@ async def on_message(message):
         """Resumes the music player"""
         state = music.get_voice_state(message.server)
         perms = message.author.permissions_in(message.channel)
-        if perms.manage_server or message.author.id == owner:
+        if perms.kick_members or message.author.id == owner:
             if state.is_playing():
                 player = state.player
                 player.resume()
