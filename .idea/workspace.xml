@@ -31,11 +31,71 @@
       <file leaf-file-name="handles.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dart/handles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="173" column="78" lean-forward="false" selection-start-line="173" selection-start-column="78" selection-end-line="173" selection-end-column="78" />
+            <state relative-caret-position="198">
+              <caret line="196" column="31" lean-forward="false" selection-start-line="196" selection-start-column="31" selection-end-line="196" selection-end-column="31" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#8877#8977#0" expanded="false" />
+                <element signature="e#9046#9376#0" expanded="false" />
+                <element signature="e#10130#11070#0" expanded="false" />
+                <element signature="e#11134#11900#0" expanded="false" />
+                <element signature="e#11962#12039#0" expanded="false" />
+                <element signature="e#12101#13324#0" expanded="false" />
+                <element signature="e#14371#15464#0" expanded="false" />
+                <element signature="e#15530#15933#0" expanded="false" />
+                <element signature="e#15997#16309#0" expanded="false" />
+                <element signature="e#16372#16686#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="member.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/member.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1628">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/user.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-770">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="client.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/client.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="302">
+              <caret line="1307" column="21" lean-forward="true" selection-start-line="1307" selection-start-column="21" selection-end-line="1307" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="server.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/server.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1144">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="permissions.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/permissions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="313" column="11" lean-forward="false" selection-start-line="313" selection-start-column="5" selection-end-line="313" selection-end-column="11" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -51,8 +111,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>songs</find>
-      <find>print</find>
       <find>bot</find>
       <find>stop</find>
       <find>skip_votes</find>
@@ -81,6 +139,8 @@
       <find>create</find>
       <find>_byt</find>
       <find>create_custom</find>
+      <find>manage</find>
+      <find>purge</find>
     </findStrings>
     <replaceStrings>
       <replace>self.client</replace>
@@ -143,8 +203,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -241,6 +299,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -591,30 +651,37 @@
       <option name="project" value="LOCAL" />
       <updated>1485462223162</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Commenting stuff">
+      <created>1486073370601</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1486073370601</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.253125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33260155" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33260155" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -632,41 +699,16 @@
     <MESSAGE value="bug fixes" />
     <MESSAGE value="added perms to commands" />
     <MESSAGE value="added exception catch to making players" />
-    <option name="LAST_COMMIT_MESSAGE" value="added exception catch to making players" />
+    <MESSAGE value="Commenting stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commenting stuff" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="5" />
+      <option name="time" value="6" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/bot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/old/dartbot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1488">
-          <caret line="93" column="56" lean-forward="true" selection-start-line="93" selection-start-column="56" selection-end-line="93" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dart/handles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1488">
-          <caret line="93" column="56" lean-forward="false" selection-start-line="93" selection-start-column="56" selection-end-line="93" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/discord/client.py" />
     <entry file="file://$PROJECT_DIR$/bot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -688,6 +730,16 @@
           <caret line="137" column="22" lean-forward="false" selection-start-line="137" selection-start-column="22" selection-end-line="137" selection-end-column="22" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#8877#8977#0" expanded="false" />
+            <element signature="e#9046#9376#0" expanded="false" />
+            <element signature="e#10130#11070#0" expanded="false" />
+            <element signature="e#11134#11900#0" expanded="false" />
+            <element signature="e#11962#12039#0" expanded="false" />
+            <element signature="e#12101#13324#0" expanded="false" />
+            <element signature="e#14371#15464#0" expanded="false" />
+            <element signature="e#15530#15933#0" expanded="false" />
+            <element signature="e#15997#16309#0" expanded="false" />
+            <element signature="e#16372#16686#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -714,6 +766,16 @@
           <caret line="127" column="4" lean-forward="false" selection-start-line="127" selection-start-column="4" selection-end-line="129" selection-end-column="28" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#8877#8977#0" expanded="false" />
+            <element signature="e#9046#9376#0" expanded="false" />
+            <element signature="e#10130#11070#0" expanded="false" />
+            <element signature="e#11134#11900#0" expanded="false" />
+            <element signature="e#11962#12039#0" expanded="false" />
+            <element signature="e#12101#13324#0" expanded="false" />
+            <element signature="e#14371#15464#0" expanded="false" />
+            <element signature="e#15530#15933#0" expanded="false" />
+            <element signature="e#15997#16309#0" expanded="false" />
+            <element signature="e#16372#16686#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -739,6 +801,16 @@
           <caret line="129" column="28" lean-forward="false" selection-start-line="129" selection-start-column="28" selection-end-line="129" selection-end-column="28" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#8877#8977#0" expanded="false" />
+            <element signature="e#9046#9376#0" expanded="false" />
+            <element signature="e#10130#11070#0" expanded="false" />
+            <element signature="e#11134#11900#0" expanded="false" />
+            <element signature="e#11962#12039#0" expanded="false" />
+            <element signature="e#12101#13324#0" expanded="false" />
+            <element signature="e#14371#15464#0" expanded="false" />
+            <element signature="e#15530#15933#0" expanded="false" />
+            <element signature="e#15997#16309#0" expanded="false" />
+            <element signature="e#16372#16686#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -758,6 +830,16 @@
           <caret line="129" column="28" lean-forward="false" selection-start-line="129" selection-start-column="28" selection-end-line="129" selection-end-column="28" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#8877#8977#0" expanded="false" />
+            <element signature="e#9046#9376#0" expanded="false" />
+            <element signature="e#10130#11070#0" expanded="false" />
+            <element signature="e#11134#11900#0" expanded="false" />
+            <element signature="e#11962#12039#0" expanded="false" />
+            <element signature="e#12101#13324#0" expanded="false" />
+            <element signature="e#14371#15464#0" expanded="false" />
+            <element signature="e#15530#15933#0" expanded="false" />
+            <element signature="e#15997#16309#0" expanded="false" />
+            <element signature="e#16372#16686#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -776,6 +858,16 @@
           <caret line="138" column="9" lean-forward="false" selection-start-line="138" selection-start-column="9" selection-end-line="138" selection-end-column="9" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#8877#8977#0" expanded="false" />
+            <element signature="e#9046#9376#0" expanded="false" />
+            <element signature="e#10130#11070#0" expanded="false" />
+            <element signature="e#11134#11900#0" expanded="false" />
+            <element signature="e#11962#12039#0" expanded="false" />
+            <element signature="e#12101#13324#0" expanded="false" />
+            <element signature="e#14371#15464#0" expanded="false" />
+            <element signature="e#15530#15933#0" expanded="false" />
+            <element signature="e#15997#16309#0" expanded="false" />
+            <element signature="e#16372#16686#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -794,6 +886,16 @@
           <caret line="138" column="9" lean-forward="false" selection-start-line="138" selection-start-column="9" selection-end-line="138" selection-end-column="9" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#8877#8977#0" expanded="false" />
+            <element signature="e#9046#9376#0" expanded="false" />
+            <element signature="e#10130#11070#0" expanded="false" />
+            <element signature="e#11134#11900#0" expanded="false" />
+            <element signature="e#11962#12039#0" expanded="false" />
+            <element signature="e#12101#13324#0" expanded="false" />
+            <element signature="e#14371#15464#0" expanded="false" />
+            <element signature="e#15530#15933#0" expanded="false" />
+            <element signature="e#15997#16309#0" expanded="false" />
+            <element signature="e#16372#16686#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -829,25 +931,10 @@
     <entry file="file://$PROJECT_DIR$/dart/playlist.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/discord/channel.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/discord/voice_client.py" />
-    <entry file="file://$PROJECT_DIR$/bot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-212">
           <caret line="197" column="0" lean-forward="true" selection-start-line="197" selection-start-column="0" selection-end-line="197" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="2479" column="0" lean-forward="true" selection-start-line="2479" selection-start-column="0" selection-end-line="2479" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -859,12 +946,70 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/bot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/permissions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="313" column="11" lean-forward="false" selection-start-line="313" selection-start-column="5" selection-end-line="313" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1144">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="1307" column="21" lean-forward="true" selection-start-line="1307" selection-start-column="21" selection-end-line="1307" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/member.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1628">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/discord/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-770">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dart/handles.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="173" column="78" lean-forward="false" selection-start-line="173" selection-start-column="78" selection-end-line="173" selection-end-column="78" />
+        <state relative-caret-position="198">
+          <caret line="196" column="31" lean-forward="false" selection-start-line="196" selection-start-column="31" selection-end-line="196" selection-end-column="31" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#8877#8977#0" expanded="false" />
+            <element signature="e#9046#9376#0" expanded="false" />
+            <element signature="e#10130#11070#0" expanded="false" />
+            <element signature="e#11134#11900#0" expanded="false" />
+            <element signature="e#11962#12039#0" expanded="false" />
+            <element signature="e#12101#13324#0" expanded="false" />
+            <element signature="e#14371#15464#0" expanded="false" />
+            <element signature="e#15530#15933#0" expanded="false" />
+            <element signature="e#15997#16309#0" expanded="false" />
+            <element signature="e#16372#16686#0" expanded="false" />
           </folding>
         </state>
       </provider>
