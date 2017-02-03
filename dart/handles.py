@@ -192,35 +192,32 @@ async def on_message(message):
         return
 
     if message.content.startswith(command + 'purge'):
-        msg = 'purge'
+        msg = 'Delete the last X messages, to a max of 100, in the channel the command was issued in.'
+        saved = message
         count = 0
-        target = discord.Member
+        target = None
         server = message.server
         perms = message.author.permissions_in(message.channel)
         if perms.manage_messages or message.author.id == owner:
             if len(message.content) > 7:
                 if len(message.content) <= 10:
                     count = message.content[7:]
-                    await client.purge_from(message.channel, limit=int(count))
-                    print("count: " + count)
-                    msg = 'Removed ' + count + 'messages from ' + message.channel.name
+                    if int(count) <= 100:
+                        await client.purge_from(message.channel, limit=int(count))
+                        msg = 'Removed ' + count + ' messages from ' + message.channel.name
+                    else:
+                        msg = 'This bot can only check up to 100 messages at a time.'
                 elif len(message.content) > 10:
                     space2 = message.content.find(' ', 7)
                     count = message.content[7:space2]
-                    user = message.content[space2:]
-                    user = user[3:-1]
-                    for member in server.members:
-                        if member.id is user:
-                            target = member
-                            print(target.name)
-                            break
-                    await client.purge_from(message.channel, limit=int(count), check=target)
-                    print('space2 at: ' + str(space2))
-                    print('count: ' + count)
-                    print('user: ' + user)
-                    msg = 'Checked the last ' + count + ' messages and removed all by' + target.name + ' from ' + message.channel.name
-            else:
-                msg = 'Delete the last X messages, to a max of 100, in the channel the command was issued in.'
+                    if int(count) <=100:
+                        user = message.content[space2:]
+                        user = user[3:-1]
+                        target = server.get_member(user)
+                        await client.purge_from(message.channel, limit=int(count), check=lambda m: m.author == target)
+                        msg = 'Checked the last ' + count + ' messages and removed all by' + target.name + ' from ' + saved.channel.name
+                    else:
+                        msg = 'This bot can only check up to 100 messages at a time.'
         else:
             msg = 'You do not have message management permissions in this channel.'
 
