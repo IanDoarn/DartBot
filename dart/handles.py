@@ -171,8 +171,9 @@ async def change_channel(message):
 client = discord.Client()
 music = Music(client)
 command = '!'  #Set this to w/e you want the command pre-fix to be
-owner = '144634215693156353'  #Discord user ID for who ever is running the bot
-
+owner = '142761888642629632'  #Discord user ID for who ever is running the bot
+#HomieRicky 142761888642629632
+#Dartrunner 144634215693156353
 
 @client.event
 async def on_ready():
@@ -250,7 +251,7 @@ async def on_message(message):
         else:
             await client.send_message(message.channel, 'You do not have permission to use that command')
 
-# voice related commands below here
+        # voice related commands below here
 
     if message.content.startswith(command + 'joinVoice'):
         """Command used to have the bot join a voice channel, or move to another voice channel"""
@@ -415,6 +416,55 @@ async def on_message(message):
             if state.is_playing():
                 player = state.player
                 player.resume()
+
+    #Emoji stuff
+
+    #Makes custom emoji with web URL
+    #Format: !emomake [URL] [name]
+    #Currently can't be used because it is FORBIDDEN
+    if message.content.startswith(command + 'emomake'):
+        msg = message.content
+        if len(msg) > 9:
+            try:
+                separator = msg.find(' ', 9)
+                URL = msg[9:separator]
+                emoji_name = msg[separator+1:]
+                from PIL import Image
+                import urllib.request
+                import io
+                #img_bytes = io.BytesIO(urllib.request.urlopen(URL).read())
+                img_bytes = urllib.request.urlopen(URL).read()
+                await client.create_custom_emoji(message.server, name=emoji_name, image=img_bytes)
+            except (discord.HTTPException or discord.Forbidden) as e:
+                await client.send_message(message.channel, 'Failed to make emoji because: ' + str(e))
+
+
+    #Deletes emoji
+    #Format: !emodelete [name]
+    if message.content.startswith(command + 'emodelete'):
+        msg = message.content
+        result = 0
+        if len(msg) > 11:
+            name = msg[11:]
+            emoji_list = client.get_all_emojis()
+            print(name)
+            try:
+                for emoji in emoji_list:
+                    if name == emoji.name:
+                        print(str(emoji) + ' ' + str(emoji.server))
+                        await client.delete_custom_emoji(emoji)
+                        result = 1
+            except Exception as e:
+                print(str(e))
+                await client.send_message(message.channel, 'Failed to delete emoji because: ' + str(e))
+            if result == 1:
+                await client.send_message(message.channel,'Deleted emoji successfully')
+
+    #Lists all emojis in the console
+    if message.content.startswith(command + 'emolist'):
+        emojis = client.get_all_emojis()
+        for emoji in emojis:
+            print(emoji.name)
 
 
 def main(token):
