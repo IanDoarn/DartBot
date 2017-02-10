@@ -1,7 +1,6 @@
 import discord
 import asyncio
 
-
 class VoiceEntry:
     def __init__(self, message, player):
         self.requester = message.author
@@ -14,7 +13,6 @@ class VoiceEntry:
         if duration:
             fmt += ' [length: {0[0]}m {0[1]}s]'.format(divmod(duration, 60))
         return fmt.format(self.player, self.requester)
-
 
 class VoiceState:
     def __init__(self, client_):
@@ -85,387 +83,171 @@ class Music:
                 pass
 
 
-def pm(destination, message):
-    """function used to send pms to users"""
-    return
+class DartbotHandles:
 
-async def join_channel(message):
-    """Method that given a message, makes the bot join a join channel.
-    Generates a voice_client for the server, and returns a string for the result.
-    Only works if a voice_client does not already exist for the server."""
-    server = message.server
-    bot = server.me
-    # print(server.channels)
-    # print(message.content)
-    msg = 'joinVoice'
-    if len(message.content) > 10:
-        channel_name = message.content[11:]
-        for channels in server.channels:
-            perms = channels.permissions_for(bot)
-            if channels.name == channel_name:
-                if channels.type.name == 'voice':
-                    if perms.connect and perms.speak and perms.use_voice_activation:
-                        voice = await client.join_voice_channel(channels)
-                        state = music.get_voice_state(message.server)
-                        state.voice = voice
-                        msg = 'Joining channel ' + voice.channel.name
-                        break
+    async def change_channel(self, message):
+        """Moves the bot to a different voice channel, given a message.
+        Returns a string with the result.
+        Only works if a voice_client for the server already exists"""
+        server = message.server
+        voice = server.voice_client
+        bot = server.me
+        # print(server.channels)
+        # print(message.content)
+        msg = 'joinVoice'
+        if len(message.content) > 10:
+            channel_name = message.content[11:]
+            for channels in server.channels:
+                perms = channels.permissions_for(bot)
+                if channels.name == channel_name:
+                    if channels.type.name == 'voice':
+                        if perms.connect and perms.speak and perms.use_voice_activation:
+                            await voice.move_to(channels)
+                            msg = 'Joining channel ' + voice.channel.name
+                            break
+                        else:
+                            msg = 'I am not allowed in ' + channels.name + '. Please check the channel permissions.'
+                            break
                     else:
-                        msg = 'I am not allowed in ' + channels.name + '. Please check the channel permissions.'
+                        msg = "Given Channel is not a voice channel."
                         break
-                else:
-                    msg = "Given Channel is not a voice channel."
-                    break
-            msg = "Channel does not exist"
+                msg = "Channel does not exist"
 
-    else:
-        for channels in server.channels:
-            # print(channels)
-            perms = channels.permissions_for(bot)
-            if channels.type.name == 'voice' and perms.connect and perms.speak and perms.use_voice_activation:
-                voice = await client.join_voice_channel(channels)
-                client.join_voice_channel(channels)
-                state = music.get_voice_state(message.server)
-                state.voice = voice
-                msg = 'Joined channel ' + voice.channel.name
-    return msg
+        else:
+            for channels in server.channels:
+                # print(channels)
+                perms = channels.permissions_for(bot)
+                if channels.type.name == 'voice' and perms.connect and perms.speak and perms.use_voice_activation:
+                    await voice.move_to(channels)
+                    msg = 'Joined channel ' + voice.channel.name
+        return msg
 
-async def change_channel(message):
-    """Moves the bot to a different voice channel, given a message.
-    Returns a string with the result.
-    Only works if a voice_client for the server already exists"""
-    server = message.server
-    voice = server.voice_client
-    bot = server.me
-    # print(server.channels)
-    # print(message.content)
-    msg = 'joinVoice'
-    if len(message.content) > 10:
-        channel_name = message.content[11:]
-        for channels in server.channels:
-            perms = channels.permissions_for(bot)
-            if channels.name == channel_name:
-                if channels.type.name == 'voice':
-                    if perms.connect and perms.speak and perms.use_voice_activation:
-                        await voice.move_to(channels)
-                        msg = 'Joining channel ' + voice.channel.name
-                        break
+    async def join_channel(self, message):
+        """Method that given a message, makes the bot join a join channel.
+        Generates a voice_client for the server, and returns a string for the result.
+        Only works if a voice_client does not already exist for the server."""
+        server = message.server
+        bot = server.me
+        # print(server.channels)
+        # print(message.content)
+        msg = 'joinVoice'
+        if len(message.content) > 10:
+            channel_name = message.content[11:]
+            for channels in server.channels:
+                perms = channels.permissions_for(bot)
+                if channels.name == channel_name:
+                    if channels.type.name == 'voice':
+                        if perms.connect and perms.speak and perms.use_voice_activation:
+                            voice = await self.client.join_voice_channel(channels)
+                            state = self.music.get_voice_state(message.server)
+                            state.voice = voice
+                            msg = 'Joining channel ' + voice.channel.name
+                            break
+                        else:
+                            msg = 'I am not allowed in ' + channels.name + '. Please check the channel permissions.'
+                            break
                     else:
-                        msg = 'I am not allowed in ' + channels.name + '. Please check the channel permissions.'
+                        msg = "Given Channel is not a voice channel."
                         break
-                else:
-                    msg = "Given Channel is not a voice channel."
-                    break
-            msg = "Channel does not exist"
+                msg = "Channel does not exist"
 
-    else:
-        for channels in server.channels:
-            # print(channels)
-            perms = channels.permissions_for(bot)
-            if channels.type.name == 'voice' and perms.connect and perms.speak and perms.use_voice_activation:
-                await voice.move_to(channels)
-                msg = 'Joined channel ' + voice.channel.name
-    return msg
+        else:
+            for channels in server.channels:
+                # print(channels)
+                perms = channels.permissions_for(bot)
+                if channels.type.name == 'voice' and perms.connect and perms.speak and perms.use_voice_activation:
+                    voice = await self.client.join_voice_channel(channels)
+                    self.client.join_voice_channel(channels)
+                    state = self.music.get_voice_state(message.server)
+                    state.voice = voice
+                    msg = 'Joined channel ' + voice.channel.name
+        return msg
 
-
-client = discord.Client()
-music = Music(client)
-command = '!'  #Set this to w/e you want the command pre-fix to be
-owner = '142761888642629632'  #Discord user ID for who ever is running the bot
-#HomieRicky 142761888642629632
-#Dartrunner 144634215693156353
-
-@client.event
-async def on_ready():
-    """Prints to console when the bot is connected and ready."""
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
-
-
-@client.event
-async def on_message(message):
-    """Whenever the client receives a message"""
-    # print(message.content)
-    # we do not want the bot to reply to itself
-    if message.author == client.user:
+    def pm(destination, message):
+        """function used to send pms to users"""
         return
 
-    if message.content.startswith(command + 'purge'):
-        msg = 'Delete the last X messages, to a max of 100, by @mention, in the channel the command was issued in.'
-        count = 0
-        target = None
-        server = message.server
-        channel = message.channel
-        perms = message.author.permissions_in(channel)
-        bot_perms = server.me.permissions_in(channel)
-        if perms.manage_messages or message.author.id == owner:
-            if bot_perms.manage_messages:
-                if len(message.content) > 7:
-                    if len(message.content) <= 10:
-                        count = message.content[7:]
-                        if int(count) <= 100:
-                            await client.purge_from(channel, limit=int(count))
-                            msg = 'Removed ' + count + ' messages from ' + channel.name
-                        else:
-                            msg = 'This bot can only check up to 100 messages at a time.'
-                    elif len(message.content) > 10:
-                        space2 = message.content.find(' ', 7)
-                        count = message.content[7:space2]
-                        if int(count) <= 100:
-                            user = message.content[space2:]
-                            user = user[3:-1]
-                            target = server.get_member(user)
-                            await client.purge_from(channel, limit=int(count), check=lambda m: m.author == target)
-                            msg = 'Checked the last ' + count + ' messages and removed all by' + target.name + ' from ' + channel.name
-                        else:
-                            msg = 'This bot can only check up to 100 messages at a time.'
-            else:
-                msg = 'I do not have message management permissions'
-        else:
-            msg = 'You do not have message management permissions in this channel.'
 
-        await client.send_message(message.channel, msg)
+    def get_music(self):
+        return self.music
 
-    if message.content.startswith(command + 'hello'):
+    async def on_ready(self):
+        """Prints to console when the bot is connected and ready."""
+        print('Logged in as')
+        print(self.client.user.name)
+        print(self.client.user.id)
+        print('------')
+
+    async def on_message(self, message):
+        """Whenever the client receives a message"""
         # print(message.content)
-        msg = 'Hello {0.author.mention}'.format(message)
-        await client.send_message(message.channel, msg)
+        # we do not want the bot to reply to itself
+        if message.author == self.client.user:
+            return
 
-    if message.content.startswith(command + 'help'):
-        # print(message.content)
-        msg = 'I need an adult!'
-        await client.send_message(message.channel, msg)
-
-    if message.content.startswith('tot'):
-        # print(message.content)
-        msg = 'gay'
-        await client.send_message(message.channel, msg)
-
-    if message.content.startswith(command + 'disconnect'):
-        """Disconnects the bot from all servers, and ends the program."""
-        if message.author.id == owner:
-            # print(message.content)
-            await client.close()
-        else:
-            await client.send_message(message.channel, 'You do not have permission to use that command')
-
-        # voice related commands below here
-
-    if message.content.startswith(command + 'joinVoice'):
-        """Command used to have the bot join a voice channel, or move to another voice channel"""
-        server = message.server
-        msg = 'join voice'
-        perms = message.author.permissions_in(message.channel)
-        if perms.kick_members or message.author.id == owner:
-            try:
-                if server.voice_client.is_connected:
-                    # print('changing channel')
-                    msg = await change_channel(message)
-            except:
-                # print('joining new channel')
-                msg = await join_channel(message)
-
-        await client.send_message(message.channel, msg)
-
-    if message.content.startswith(command + 'summon'):
-        """Makes the bot join, or move to the channel the users is currently in"""
-        print(message.content)
-        summoned_channel = message.author.voice_channel
-        server = message.server
-        perms = message.author.permissions_in(message.channel)
-        if perms.kick_members or message.author.id == owner:
-            if summoned_channel is None:
-                msg = 'You are not in a voice channel.'
-            state = music.get_voice_state(message.server)
-            if state.voice is None:
-                voice = await client.join_voice_channel(summoned_channel)
-                msg = 'Joined ' + summoned_channel.name
-                state.voice = voice
+        if not message.content.startswith(self.prefix):
+            pass
+        elif message.content.startswith(self.prefix + 'help'):
+            if len(message.content) > len(self.prefix + 'help'):
+                found = False
+                for command in self.command_list:
+                    if message.content[len(self.prefix + 'help '):] == command.__name__:
+                        try:
+                            await self.client.send_message(message.channel, command.description)
+                            found = True
+                        except Exception as e:
+                            await self.client.send_message(message.channel, 'No description found: ' + str(e))
+                            found = True
+                if not found:
+                    await self.client.send_message(message.channel, 'There is no command by that name')
             else:
-                voice = server.voice_client
-                state.voice = voice
-                await voice.move_to(summoned_channel)
-                msg = 'Joined ' + summoned_channel.name
-
-        await client.send_message(message.channel, msg)
-
-    if message.content.startswith(command + 'leave'):
-        """Makes the bot disconnect from any voice channel is it in, in the server the command came from."""
-        server = message.server
-        voice = client.voice_client_in(server)
-        state = music.get_voice_state(server)
-        perms = message.author.permissions_in(message.channel)
-        if perms.kick_members or message.author.id == owner:
-
-            if state.is_playing():
-                player = state.player
-                player.stop()
-
-            try:
-                state.audio_player.cancel()
-                del music.voice_states[server.id]
-                await state.voice.disconnect()
-            except:
-                pass
-        msg = 'Disconnected from ' + voice.channel.name
-        await client.send_message(message.channel, msg)
-
-    if message.content.startswith(command + 'bro'):
-        msg = "what the fuck"
-        await client.send_message(message.channel, msg)
-
-    if message.content.startswith(command + 'add'):
-        """Adds a song to the music playlist.
-        If there is no playlist, one is started, and the bot starts playing music
-        in the connected voice channel."""
-
-        server = message.server
-        state = music.get_voice_state(server)
-        volume = state.volume
-        if client.is_voice_connected(server):
-            voice = client.voice_client_in(server)
-            if len(message.content) <= 5:
-                msg = 'Please include a link to add to the playlist.'
-            else:
-                try:
-                    player = await voice.create_ytdl_player(message.content[5:], after=state.toggle_next)
-                except Exception as e:
-                    fmt = 'An error occurred while processing this request: ```py\n{}: {}\n```'
-                    msg = fmt.format(type(e).__name__, e)
-                else:
-                    entry = VoiceEntry(message, player)
-                    msg = 'Enqueued ' + str(entry)
-                    await state.songs.put(entry)
-                    player.volume = volume
-                    # player.start()
+                cmd_dump = ''
+                for cmd in self.command_list:
+                    cmd_dump += cmd.__name__ + '\n'
+                await self.client.send_message(message.channel, 'Command list:\n' + cmd_dump + 'Type ' + self.prefix + 'help [command] for help on a specific command')
         else:
-            msg = "I am not in a voice channel, please add me to one first."
-        await client.send_message(message.channel, msg)
+            found = False
+            for command in self.command_list:
+                if message.content.startswith(self.prefix + command.__name__):
+                    try:
+                        await command.command(self, message)
+                        found = True
+                    except Exception as e:
+                        await self.client.send_message(message.channel, 'Something went wrong: ' + str(e))
+                        found = True
+            if not found:
+                await self.client.send_message(message.channel, 'There is no command by that name')
 
-    if message.content.startswith(command + 'volume'):
-        """Changes the volume of the music player, from 0 to 100"""
-        state = music.get_voice_state(message.server)
-        msg = 'volume'
-        player = state.player
-        perms = message.author.permissions_in(message.channel)
-        if perms.kick_members or message.author.id == owner:
-            if state.is_playing():
-                if len(message.content) <= 7:
-                    msg = str(player.volume * 100) +'%'
-                else:
-                    if state.is_playing():
-                        player.volume = int(message.content[8:]) / 100
-                        if player.volume > 1.0:
-                            player.volume = 1.0
-                        state.volume = player.volume
-                        msg = ('Set the volume to {:.0%}'.format(player.volume))
+
+
+    def __init__(self, token):
+        import os.path
+        configs = open(os.path.dirname(__file__) + '/../command_list.txt', 'r')
+        cmd_list = configs.readlines()
+        _cmd_list = []
+        print(str(cmd_list))
+        for i in range(len(cmd_list)):
+            if cmd_list[i].endswith("\n"):
+                _cmd_list.append(cmd_list[i][:len(cmd_list[i])-1])
             else:
-                msg = 'No song currently playing.'
-        await client.send_message(message.channel, msg)
-
-    if message.content.startswith(command + 'skip'):
-        """Skips the current song if the command is issued by the requester
-        Or starts the vote to skip if they are not"""
-        state = music.get_voice_state(message.server)
-        perms = message.author.permissions_in(message.channel)
-        if not state.is_playing():
-            msg = 'Not playing any music right now.'
-        else:
-            voter = message.author
-            if voter == state.current.requester or perms.kick_members or message.author.id == owner:
-                msg = 'Requester requested skipping song.'
-                state.skip()
-            elif voter.id not in state.skip_votes:
-                state.skip_votes.add(voter.id)
-                total_votes = len(state.skip_votes)
-                if total_votes >= 3:
-                    msg = 'Skip vote passed, skipping song.'
-                    state.skip()
-                else:
-                    msg = 'Skip vote added, currently at [{}/3]'.format(total_votes)
-            else:
-                msg = 'You have already voted to skip this song.'
-        await client.send_message(message.channel, msg)
-
-    if message.content.startswith(command + 'playing'):
-        """Prints the current song info into the channel the command came from"""
-        state = music.get_voice_state(message.server)
-        if state.current is None:
-            msg = 'Not playing anything.'
-        else:
-            skip_count = len(state.skip_votes)
-            msg = 'Now playing {} [skips: {}/3]'.format(state.current, skip_count)
-        await client.send_message(message.channel, msg)
-
-    if message.content.startswith(command + 'pause'):
-        """Pauses the music player"""
-        state = music.get_voice_state(message.server)
-        perms = message.author.permissions_in(message.channel)
-        if perms.kick_members or message.author.id == owner:
-            if state.is_playing():
-                player = state.player
-                player.pause()
-
-    if message.content.startswith(command + 'play'):
-        """Resumes the music player"""
-        state = music.get_voice_state(message.server)
-        perms = message.author.permissions_in(message.channel)
-        if perms.kick_members or message.author.id == owner:
-            if state.is_playing():
-                player = state.player
-                player.resume()
-
-    #Emoji stuff
-
-    #Makes custom emoji with web URL
-    #Format: !emomake [URL] [name]
-    #Currently can't be used because it is FORBIDDEN
-    if message.content.startswith(command + 'emomake'):
-        msg = message.content
-        if len(msg) > 9:
+                _cmd_list.append(cmd_list[i])
+        print(str(_cmd_list))
+        self.command_list = []
+        import importlib
+        for cmd in _cmd_list:
             try:
-                separator = msg.find(' ', 9)
-                URL = msg[9:separator]
-                emoji_name = msg[separator+1:]
-                from PIL import Image
-                import urllib.request
-                import io
-                #img_bytes = io.BytesIO(urllib.request.urlopen(URL).read())
-                img_bytes = urllib.request.urlopen(URL).read()
-                await client.create_custom_emoji(message.server, name=emoji_name, image=img_bytes)
-            except (discord.HTTPException or discord.Forbidden) as e:
-                await client.send_message(message.channel, 'Failed to make emoji because: ' + str(e))
-
-
-    #Deletes emoji
-    #Format: !emodelete [name]
-    if message.content.startswith(command + 'emodelete'):
-        msg = message.content
-        result = 0
-        if len(msg) > 11:
-            name = msg[11:]
-            emoji_list = client.get_all_emojis()
-            print(name)
-            try:
-                for emoji in emoji_list:
-                    if name == emoji.name:
-                        print(str(emoji) + ' ' + str(emoji.server))
-                        await client.delete_custom_emoji(emoji)
-                        result = 1
-            except Exception as e:
-                print(str(e))
-                await client.send_message(message.channel, 'Failed to delete emoji because: ' + str(e))
-            if result == 1:
-                await client.send_message(message.channel,'Deleted emoji successfully')
-
-    #Lists all emojis in the console
-    if message.content.startswith(command + 'emolist'):
-        emojis = client.get_all_emojis()
-        for emoji in emojis:
-            print(emoji.name)
-
-
-def main(token):
-    client.run(token)
+                print('Importing ' + cmd)
+                command = importlib.import_module('dart.' + cmd)
+                command.__name__ = cmd
+                self.command_list.append(command)
+            except ModuleNotFoundError:
+                print('Could not import ' + cmd)
+        self.client = discord.Client()
+        self.client.event(self.on_ready)
+        self.client.event(self.on_message)
+        self.music = Music(self.client)
+        self.prefix = '!'  #Set this to w/e you want the command pre-fix to be
+        self.owner = '142761888642629632'  #Discord user ID for who ever is running the bot
+        #HomieRicky 142761888642629632
+        #Dartrunner 144634215693156353
+        self.client.run(token)

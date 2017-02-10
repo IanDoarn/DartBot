@@ -12,7 +12,7 @@ if __name__ == '__main__':
     args = vars(parser.parse_args())
 
     if args['run']:
-        handles.main(args['run'][0])
+        handles.DartbotHandles(args['run'][0])
 
     if args['join_test']:
-        handles.main('MjY3NTA1MDY2MzA5NzEzOTMw.C1QcmA.OVS6j0lFRkGEEyccz7G0rIygrEA')
+        handles.DartbotHandles('MjY3NTA1MDY2MzA5NzEzOTMw.C1QcmA.OVS6j0lFRkGEEyccz7G0rIygrEA')
