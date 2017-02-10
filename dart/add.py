@@ -1,4 +1,6 @@
-description = ' Adds a song to the music playlist. If there is no playlist, one is started, and the bot starts playing music in the connected voice channel.'
+from dart.handles import VoiceEntry
+
+description = 'Adds a song to the music playlist. If there is no playlist, one is started, and the bot starts playing music in the connected voice channel.'
 
 async def command(dartbot, message):
     server = message.server
@@ -15,7 +17,6 @@ async def command(dartbot, message):
                 fmt = 'An error occurred while processing this request: ```py\n{}: {}\n```'
                 msg = fmt.format(type(e).__name__, e)
             else:
-                from dart import VoiceEntry
                 entry = VoiceEntry(message, player)
                 msg = 'Enqueued ' + str(entry)
                 await state.songs.put(entry)
