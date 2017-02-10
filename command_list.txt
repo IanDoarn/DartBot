@@ -1,11 +1,11 @@
 add
 bro
 disconnect
-emodelete
-emolist
-emomake
+emoDelete
+emoList
+emoMake
 hello
-joinvoice
+joinVoice
 leave
 pause
 play

@@ -185,24 +185,26 @@ class DartbotHandles:
         if message.author == self.client.user:
             return
 
-        if message.content.startswith(self.prefix + 'help'):
-            if len(message.content) > len(self.prefix + 'help '):
+        if not message.content.startswith(self.prefix):
+            pass
+        elif message.content.startswith(self.prefix + 'help'):
+            if len(message.content) > len(self.prefix + 'help'):
                 found = False
                 for command in self.command_list:
-                    if message.content[len(self.prefix + 'help '):] == command:
+                    if message.content[len(self.prefix + 'help '):] == command.__name__:
                         try:
                             await self.client.send_message(message.channel, command.description)
                             found = True
                         except Exception as e:
-                            self.client.send_message(message.channel, 'No description found: ' + str(e))
+                            await self.client.send_message(message.channel, 'No description found: ' + str(e))
                             found = True
                 if not found:
-                    self.client.send_message(message.channel, 'There is no command by that name')
+                    await self.client.send_message(message.channel, 'There is no command by that name')
             else:
                 cmd_dump = ''
                 for cmd in self.command_list:
                     cmd_dump += cmd.__name__ + '\n'
-                self.client.send_message(message.channel, 'Command list:\n' + cmd_dump + 'Type ' + self.prefix + 'help [command] for help on a specific command')
+                await self.client.send_message(message.channel, 'Command list:\n' + cmd_dump + 'Type ' + self.prefix + 'help [command] for help on a specific command')
         else:
             found = False
             for command in self.command_list:
@@ -211,10 +213,10 @@ class DartbotHandles:
                         await command.command(self, message)
                         found = True
                     except Exception as e:
-                        self.client.send_message(message.channel, 'Something went wrong: ' + str(e))
+                        await self.client.send_message(message.channel, 'Something went wrong: ' + str(e))
                         found = True
             if not found:
-                self.client.send_message(message.channel, 'There is no command by that name')
+                await self.client.send_message(message.channel, 'There is no command by that name')
 
 
 
@@ -231,10 +233,12 @@ class DartbotHandles:
                 _cmd_list.append(cmd_list[i])
         print(str(_cmd_list))
         self.command_list = []
+        import importlib
         for cmd in _cmd_list:
             try:
                 print('Importing ' + cmd)
-                command = __import__(cmd)
+                command = importlib.import_module('dart.' + cmd)
+                command.__name__ = cmd
                 self.command_list.append(command)
             except ModuleNotFoundError:
                 print('Could not import ' + cmd)
