@@ -1,0 +1,17 @@
+add
+bro
+disconnect
+emodelete
+emolist
+emomake
+hello
+joinvoice
+leave
+pause
+play
+playing
+purge
+skip
+summon
+tot
+volume
