@@ -2,6 +2,8 @@
 
 from dart import handles
 
+token = # discord bot app token
+
 if __name__ == '__main__':
     import argparse
 
@@ -15,4 +17,4 @@ if __name__ == '__main__':
         handles.DartbotHandles(args['run'][0])
 
     if args['join_test']:
-        handles.DartbotHandles('MjY3NTA1MDY2MzA5NzEzOTMw.C1QcmA.OVS6j0lFRkGEEyccz7G0rIygrEA')
+        handles.DartbotHandles(token)
