@@ -1,0 +1,26 @@
+{
+    "command_list": [
+        "add",
+        "disconnect",
+        "emodelete",
+        "emolist",
+        "emomake",
+        "hello",
+        "joinvoice",
+        "leave",
+        "pause",
+        "play",
+        "playing",
+        "purge",
+        "skip",
+        "summon",
+        "volume"
+    ],
+    "command_prefix": "@",
+    "name": "Capri_Sun_Corner",
+    "server_id": "SERVER_ID",
+    "server_specific_commands": [
+        "tot",
+        "bro"
+    ]
+}
