@@ -2,7 +2,7 @@
 
 from dart import handles
 
-token = # discord bot app token
+token = 'MjY3NTA1MDY2MzA5NzEzOTMw.C1QcmA.OVS6j0lFRkGEEyccz7G0rIygrEA' # discord bot app token
 
 if __name__ == '__main__':
     import argparse

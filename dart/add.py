@@ -12,7 +12,8 @@ async def command(dartbot, message):
             msg = 'Please include a link to add to the playlist.'
         else:
             try:
-                player = await voice.create_ytdl_player(message.content[5:], after=state.toggle_next)
+                player_options = dict({'playlistreverse':True})
+                player = await voice.create_ytdl_player(message.content[5:], player_options, after=state.toggle_next)
             except Exception as e:
                 fmt = 'An error occurred while processing this request: ```py\n{}: {}\n```'
                 msg = fmt.format(type(e).__name__, e)

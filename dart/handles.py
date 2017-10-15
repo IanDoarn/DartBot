@@ -250,4 +250,5 @@ class DartbotHandles:
         self.owner = '142761888642629632'  #Discord user ID for who ever is running the bot
         #HomieRicky 142761888642629632
         #Dartrunner 144634215693156353
+        print(discord.version_info)
         self.client.run(token)
