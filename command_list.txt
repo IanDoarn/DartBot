@@ -1,3 +1,5 @@
 hello
 help
 disconnect
+summon
+expel

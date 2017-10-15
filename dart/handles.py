@@ -22,9 +22,6 @@ class DartbotHandles:
         print('We have logged in as {0.user}'.format(self.client))
 
     async def on_message(self, message):
-        print(message.content)
-        print(message.author.id)
-
         if message.author == self.client.user:
             return
 

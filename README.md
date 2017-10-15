@@ -18,6 +18,8 @@ https://discordapp.com/oauth2/authorize?client_id=[BOT_CLIENT_ID]&scope=bot
 Replace [BOT_CLIENT_ID] with your bot's own client ID
 
 Then, run bot.py with any of these commands
+
+
   -h, --help            show help message and exit
 
   -r [BOT_TOKEN], --run [BOT_TOKEN]
