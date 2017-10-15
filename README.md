@@ -12,15 +12,18 @@ Created by:
 This bot is currently undergoing a complete rewrite to reflect the changes made in the discord.py write.
  
 How To Use:
--
+First, invite the bot to your server with this link:
 
-To have DartBot join a server, run the follwing command from the command line:
-    
-    python bot.py -r your_server_token_here
+https://discordapp.com/oauth2/authorize?client_id=[BOT_CLIENT_ID]&scope=bot
+Replace [BOT_CLIENT_ID] with your bot's own client ID
 
-Or to have DartBot join the Test Server:
+Then, run bot.py with any of these commands
+  -h, --help            show help message and exit
 
-    python bot.py -j
+  -r [BOT_TOKEN], --run [BOT_TOKEN]
+                        Run a new bot
 
+  -t [OWNER_ID], --test [OWNER_ID]
+                        (Requires -r first) Run a new bot with a specific user ID as the "Owner". Note: only the owner can use the bot commands
 
-
+  -v, --version_info    Get discord version info
