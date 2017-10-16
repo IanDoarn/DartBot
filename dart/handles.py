@@ -51,13 +51,13 @@ class DartbotHandles:
         self.command_list = []
         import importlib
         for cmd in _cmd_list:
-            try:
-                print('Importing ' + cmd)
-                command = importlib.import_module('dart.' + cmd)
-                command.__name__ = cmd
-                self.command_list.append(command)
-            except ModuleNotFoundError:
-                print('Could not import ' + cmd)
+            #try:
+            print('Importing ' + cmd)
+            command = importlib.import_module('dart.' + cmd)
+            command.__name__ = cmd
+            self.command_list.append(command)
+            #except ModuleNotFoundError:
+                #print('Could not import ' + cmd)
         self.client = discord.Client()
         self.client.event(self.on_ready)
         self.client.event(self.on_message)

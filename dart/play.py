@@ -11,6 +11,13 @@ async def command(dartbot, message):
         return
 
     video_link = message.content[len(dartbot.prefix)+len('play '):]
-
-    source = discord.FFmpegPCMAudio(video_link)
+    results = dartbot.downloader.extract_info(video_link, download=False)
+    urllist = []
+    if 'entries' in results:
+        for entry in results['entries']:
+            urllist.append(entry['url'])
+    else:
+        urllist.append(results['url'])
+    print(urllist)
+    source = discord.FFmpegPCMAudio(urllist[0])
     server_voice.play(source)
