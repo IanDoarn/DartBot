@@ -10,6 +10,8 @@ async def command(dartbot, message):
         await message.channel.send('I am not connected to any voice chat, dummy!')
         return
 
+    await message.channel.send('Downloading track(s). Please wait.')
+
     video_link = message.content[len(dartbot.prefix)+len('play '):]
     results = dartbot.downloader.extract_info(video_link, download=False)
     urllist = []
@@ -18,6 +20,6 @@ async def command(dartbot, message):
             urllist.append(entry['url'])
     else:
         urllist.append(results['url'])
-    print(urllist)
+    #print(urllist)
     source = discord.FFmpegPCMAudio(urllist[0])
     server_voice.play(source)
