@@ -1,52 +1,63 @@
 import discord
-import asyncio
+import threading
 import youtube_dl
 
-class Playlist:
-    def __init__(self, voice, client):
-        self.voice = voice
-        self.playlist = asyncio.Queue(loop=client.loop)
+class SongObject(discord.FFmpegPCMAudio):
+    def __init__(self, source, voice_client=None, metadata=None, next=None):
+        super.source = source
+        self.metadata = metadata
+        self.next = next
+        self.voice_client = voice_client
+        self.started = False
+        self.t = threading.Thread(target=self.check_playing_thread)
+        self.t.start()
 
-class VoiceHandler:
-    def __init__(self, client):
-        self.client = client
-        self._new_voice = asyncio.Event(loop=client.loop)
-        self.voices = []
-        self._voices = client.voice_clients
-        self.voice_checker = asyncio.Task(self.handle_new_voice)
+    def play(self):
+        if self.voice_client is None:
+            raise ModuleNotFoundError
+        else:
+            try:
+                self.voice_client.play(self)
+                self.started = True
+            except discord.ClientException or TypeError as e:
+                print(str(e))
+
+    def play(self, source):
+        super.source = source
         try:
-            self.client.event(self.on_new_voice)
-        except asyncio.CancelledError as e:
+            self.voice_client.play(self)
+            self.started = True
+        except discord.ClientException or TypeError as e:
             print(str(e))
 
-    def add(self, url):
-        self.playlist.put(url)
 
-    @asyncio.coroutine
-    def handle_new_voice(self):
-        while len(self._voices) == len(self.client.voice_clients):
-            if len(self._voices) > len(self.client.voice_clients):
-                for v in self._voices:
-                    if v not in self.client.voice_clients:
-                        yield from self.on_new_voice(v, removed=True)
-                        pass
-            elif len(self._voices) < len(self.client.voice_clients):
-                for v in self.client.voice_clients:
-                    if v not in self._voices:
-                        yield from self.on_new_voice(v)
-                        pass
+    def check_playing_thread(self):
+        song_ended = False
+        while not song_ended:
+            if self.started and self.voice_client.is_playing():
+                song_ended = True
 
-    @asyncio.coroutine
-    def on_new_voice(self, voice, removed=False):
-        if not removed:
-            self.voices.append(Playlist(voice, self.client))
+    def get_last(self):
+        if self.next is None:
+            return self
         else:
-            for v in self.voices:
-                if v.voice == voice:
-                    self.voices.remove(v)
+            return self.get_last()
 
+    def get_next(self):
+        return self.next
 
+    def get_playlist(self):
+        if self.next is None:
+            return [self]
+        else:
+            return self.next.get_playlist([self])
 
+    def get_playlist(self, recursive):
+        recursive.append(self)
+        if self.next is None:
+            return recursive
+        else:
+            return self.next.get_playlist(recursive)
 
 class DartbotHandles:
     def verify_user(self, message):
@@ -84,14 +95,15 @@ class DartbotHandles:
                 await dm_chan.send('Failed to do command: `{0.content}`   Access denied'.format(message), delete_after=30.0)
 
     def __init__(self, token, ownerID=None):
-        import logging
-
-        logger = logging.getLogger('discord')
-        logger.setLevel(logging.DEBUG)
-        handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-        handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-        logger.addHandler(handler)
-
+        try:
+            import logging
+            logger = logging.getLogger('discord')
+            logger.setLevel(logging.DEBUG)
+            handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+            handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+            logger.addHandler(handler)
+        except PermissionError as e:
+            print('Could not start logger: ' + str(e))
 
         import os.path
         configs = open(os.path.dirname(__file__) + '/../command_list.txt', 'r')
