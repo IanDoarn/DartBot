@@ -1,6 +1,8 @@
 hello
 help
-disconnect
+dc
 summon
 expel
 play
+embed
+react
