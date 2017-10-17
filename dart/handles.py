@@ -1,24 +1,24 @@
 import discord
 import threading
 import youtube_dl
+import time
+
 
 class SongObject(discord.FFmpegPCMAudio):
     def __init__(self, source, voice_client=None, metadata=None, next=None):
-        super.source = source
+        super().__init__(source)
         self.metadata = metadata
         self.next = next
         self.voice_client = voice_client
-        self.started = False
         self.t = threading.Thread(target=self.check_playing_thread)
-        self.t.start()
 
     def play(self):
         if self.voice_client is None:
-            raise ModuleNotFoundError
+            raise TypeError
         else:
             try:
                 self.voice_client.play(self)
-                self.started = True
+                self.t.start()
             except discord.ClientException or TypeError as e:
                 print(str(e))
 
@@ -26,16 +26,20 @@ class SongObject(discord.FFmpegPCMAudio):
         super.source = source
         try:
             self.voice_client.play(self)
-            self.started = True
+            self.t.start()
         except discord.ClientException or TypeError as e:
             print(str(e))
 
 
     def check_playing_thread(self):
-        song_ended = False
-        while not song_ended:
-            if self.started and self.voice_client.is_playing():
-                song_ended = True
+        while not self.voice_client.is_playing():
+            time.sleep(1)
+            print(str(self.metadata['title']))
+
+        print('Song ended')
+        if self.next is not None:
+            print('Now playing ' + self.get_next().metadata['title'])
+            self.get_next().play(self.voice_client)
 
     def get_last(self):
         if self.next is None:
@@ -58,6 +62,11 @@ class SongObject(discord.FFmpegPCMAudio):
             return recursive
         else:
             return self.next.get_playlist(recursive)
+
+    def remove_future(self):
+        self.next=None
+
+
 
 class DartbotHandles:
     def verify_user(self, message):
