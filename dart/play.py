@@ -1,6 +1,5 @@
-import discord
 import dart.handles as h
-description = 'Plays the audio from the given link'
+description = 'Adds song or playlist to the queue and starts playing them immediately'
 
 async def command(dartbot, message):
     server_voice = None
@@ -11,7 +10,7 @@ async def command(dartbot, message):
         await message.channel.send('I am not connected to any voice chat, dummy!')
         return
 
-    await message.channel.send('Downloading track info. Please wait.')
+    info_msg = await message.channel.send('Downloading track info. Please wait.')
 
     video_link = message.content[len(dartbot.prefix)+len('play '):]
     results = dartbot.downloader.extract_info(video_link, download=False)
@@ -25,6 +24,7 @@ async def command(dartbot, message):
         urllist.append(results['url'])
         meta.append(results)
 
+    print(len(urllist))
     first = h.SongObject(urllist[0], voice_client=server_voice, metadata=meta[0])
     if len(urllist) > 1:
         prev = first
@@ -33,5 +33,5 @@ async def command(dartbot, message):
             prev.next = buf
             prev = buf
 
-    #print(urllist)
-    server_voice.play(first)
+    first.play()
+    info_msg.delete()

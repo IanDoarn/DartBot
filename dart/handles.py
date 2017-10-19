@@ -19,27 +19,15 @@ class SongObject(discord.FFmpegPCMAudio):
             try:
                 self.voice_client.play(self)
                 self.t.start()
-            except discord.ClientException or TypeError as e:
+            except discord.ClientException as e:
                 print(str(e))
-
-    def play(self, source):
-        super.source = source
-        try:
-            self.voice_client.play(self)
-            self.t.start()
-        except discord.ClientException or TypeError as e:
-            print(str(e))
 
 
     def check_playing_thread(self):
-        while not self.voice_client.is_playing():
+        while self.voice_client.is_playing() or self.voice_client.is_paused():
             time.sleep(1)
-            print(str(self.metadata['title']))
-
-        print('Song ended')
         if self.next is not None:
-            print('Now playing ' + self.get_next().metadata['title'])
-            self.get_next().play(self.voice_client)
+            self.get_next().play()
 
     def get_last(self):
         if self.next is None:
@@ -50,13 +38,7 @@ class SongObject(discord.FFmpegPCMAudio):
     def get_next(self):
         return self.next
 
-    def get_playlist(self):
-        if self.next is None:
-            return [self]
-        else:
-            return self.next.get_playlist([self])
-
-    def get_playlist(self, recursive):
+    def get_playlist(self, recursive=[]):
         recursive.append(self)
         if self.next is None:
             return recursive
@@ -149,5 +131,4 @@ class DartbotHandles:
             }],
         })
         self.client.run(token)
-
 

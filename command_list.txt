@@ -5,3 +5,7 @@ summon
 expel
 play
 embed
+clear
+toggle
+list
+current
